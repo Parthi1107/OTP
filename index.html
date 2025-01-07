@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+</head>
+<body>
+    <h2>OTP Verification</h2>
+    <button onclick="startOTPProcess()">Generate OTP</button>
+    <script>
+        function generateOTP() {
+            return Math.floor(100000 + Math.random() * 900000);
+        }
+
+        function startOTPProcess() {
+            const otp = generateOTP();
+            console.log("Your OTP is:", otp); 
+            const otpGeneratedTime = new Date().getTime();
+            let otpExpired = false;
+
+            const timeout = setTimeout(() => {
+                otpExpired = true;
+                alert("Time expired! OTP is no longer valid.");
+            }, 10000);
+
+            setTimeout(() => {
+                const userInput = prompt("Enter the OTP displayed in the console:");
+                const otpSubmittedTime = new Date().getTime();
+                const timeDifference = otpSubmittedTime - otpGeneratedTime;
+                
+                if (timeDifference > 10000) {
+                    clearTimeout(timeout);
+                    alert("Time expired! OTP is no longer valid.");
+                } else if (userInput == otp) {
+                    clearTimeout(timeout);
+                    alert("OTP verified successfully!");
+                } else {
+                    clearTimeout(timeout);
+                    alert("Incorrect OTP");
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
